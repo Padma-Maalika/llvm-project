@@ -310,14 +310,12 @@ CXCursor cxcursor::MakeCXCursor(const Stmt *S, const Decl *Parent,
   case Stmt::CXXScalarValueInitExprClass:
   case Stmt::CXXUuidofExprClass:
   case Stmt::ChooseExprClass:
-  case Stmt::DesignatedInitExprClass:
   case Stmt::DesignatedInitUpdateExprClass:
   case Stmt::ArrayInitLoopExprClass:
   case Stmt::ArrayInitIndexExprClass:
   case Stmt::ExprWithCleanupsClass:
   case Stmt::ExpressionTraitExprClass:
   case Stmt::ExtVectorElementExprClass:
-  case Stmt::ImplicitCastExprClass:
   case Stmt::ImplicitValueInitExprClass:
   case Stmt::NoInitExprClass:
   case Stmt::MaterializeTemporaryExprClass:
@@ -337,6 +335,14 @@ CXCursor cxcursor::MakeCXCursor(const Stmt *S, const Decl *Parent,
   case Stmt::SYCLUniqueStableNameExprClass:
     K = CXCursor_UnexposedExpr;
     break;
+
+  case Stmt::DesignatedInitExprClass:
+    K = CXCursor_DesignatedInitExpr;
+	break;
+
+  case Stmt::ImplicitCastExprClass:
+	K = CXCursor_ImplicitCastExpr;
+	break;
 
   case Stmt::OpaqueValueExprClass:
     if (Expr *Src = cast<OpaqueValueExpr>(S)->getSourceExpr())
@@ -873,6 +879,8 @@ CXCursor cxcursor::MakeCXCursor(const Stmt *S, const Decl *Parent,
     K = CXCursor_BuiltinBitCastExpr;
   }
 
+//  printf("class: %d %s -> %s\n", S->getStmtClass(), S->getStmtClassName(),
+//		  clang_getCursorKindSpelling(K).data);
   CXCursor C = {K, 0, {Parent, S, TU}};
   return C;
 }

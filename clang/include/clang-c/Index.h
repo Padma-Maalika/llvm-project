@@ -1685,7 +1685,10 @@ enum CXCursorKind {
    */
   CXCursor_CXXParenListInitExpr = 155,
 
-  CXCursor_LastExpr = CXCursor_CXXParenListInitExpr,
+  CXCursor_DesignatedInitExpr = 156,
+  CXCursor_ImplicitCastExpr = 157,
+
+  CXCursor_LastExpr = CXCursor_ImplicitCastExpr,
 
   /* Statements */
   CXCursor_FirstStmt = 200,
@@ -6652,6 +6655,81 @@ clang_getUnaryOperatorKindSpelling(enum CXUnaryOperatorKind kind);
  */
 CINDEX_LINKAGE enum CXUnaryOperatorKind
 clang_getCursorUnaryOperatorKind(CXCursor cursor);
+
+enum CXCastKind {
+	CXCastKind_Invalid,
+	CXCastKind_Dependent,
+	CXCastKind_BitCast,
+	CXCastKind_LValueBitCast,
+	CXCastKind_LValueToRValueBitCast,
+	CXCastKind_LValueToRValue,
+	CXCastKind_NoOp,
+	CXCastKind_BaseToDerived,
+	CXCastKind_DerivedToBase,
+	CXCastKind_UncheckedDerivedToBase,
+	CXCastKind_Dynamic,
+	CXCastKind_ToUnion,
+	CXCastKind_ArrayToPointerDecay,
+	CXCastKind_FunctionToPointerDecay,
+	CXCastKind_NullToPointer,
+	CXCastKind_NullToMemberPointer,
+	CXCastKind_BaseToDerivedMemberPointer,
+	CXCastKind_DerivedToBaseMemberPointer,
+	CXCastKind_MemberPointerToBoolean,
+	CXCastKind_ReinterpretMemberPointer,
+	CXCastKind_UserDefinedConversion,
+	CXCastKind_ConstructorConversion,
+	CXCastKind_IntegralToPointer,
+	CXCastKind_PointerToIntegral,
+	CXCastKind_PointerToBoolean,
+	CXCastKind_ToVoid,
+	CXCastKind_MatrixCast,
+	CXCastKind_VectorSplat,
+	CXCastKind_IntegralCast,
+	CXCastKind_IntegralToBoolean,
+	CXCastKind_IntegralToFloating,
+	CXCastKind_FloatingToFixedPoint,
+	CXCastKind_FixedPointToFloating,
+	CXCastKind_FixedPointCast,
+	CXCastKind_FixedPointToIntegral,
+	CXCastKind_IntegralToFixedPoint,
+	CXCastKind_FixedPointToBoolean,
+	CXCastKind_FloatingToIntegral,
+	CXCastKind_FloatingToBoolean,
+	CXCastKind_BooleanToSignedIntegral,
+	CXCastKind_FloatingCast,
+	CXCastKind_CPointerToObjCPointerCast,
+	CXCastKind_BlockPointerToObjCPointerCast,
+	CXCastKind_AnyPointerToBlockPointerCast,
+	CXCastKind_ObjCObjectLValueCast,
+	CXCastKind_FloatingRealToComplex,
+	CXCastKind_FloatingComplexToReal,
+	CXCastKind_FloatingComplexToBoolean,
+	CXCastKind_FloatingComplexCast,
+	CXCastKind_FloatingComplexToIntegralComplex,
+	CXCastKind_IntegralRealToComplex,
+	CXCastKind_IntegralComplexToReal,
+	CXCastKind_IntegralComplexToBoolean,
+	CXCastKind_IntegralComplexCast,
+	CXCastKind_IntegralComplexToFloatingComplex,
+	CXCastKind_ARCProduceObject,
+	CXCastKind_ARCConsumeObject,
+	CXCastKind_ARCReclaimReturnedObject,
+	CXCastKind_ARCExtendBlockObject,
+	CXCastKind_AtomicToNonAtomic,
+	CXCastKind_NonAtomicToAtomic,
+	CXCastKind_CopyAndAutoreleaseBlockObject,
+	CXCastKind_BuiltinFnToFnPtr,
+	CXCastKind_ZeroToOCLOpaqueType,
+	CXCastKind_AddressSpaceConversion,
+	CXCastKind_IntToOCLSampler,
+};
+
+CINDEX_LINKAGE enum CXCastKind
+clang_getCursorCastKind(CXCursor cursor);
+
+CINDEX_LINKAGE CXString
+clang_getCastKindSpelling(enum CXCastKind kind);
 
 /**
  * @}

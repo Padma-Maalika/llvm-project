@@ -5738,6 +5738,10 @@ CXString clang_getCursorKindSpelling(enum CXCursorKind Kind) {
     return cxstring::createRef("RequiresExpr");
   case CXCursor_CXXParenListInitExpr:
     return cxstring::createRef("CXXParenListInitExpr");
+  case CXCursor_DesignatedInitExpr:
+    return cxstring::createRef("DesignatedInitExpr");
+  case CXCursor_ImplicitCastExpr:
+    return cxstring::createRef("ImplicitCastExpr");
   case CXCursor_UnexposedStmt:
     return cxstring::createRef("UnexposedStmt");
   case CXCursor_DeclStmt:
@@ -9714,4 +9718,20 @@ enum CXUnaryOperatorKind clang_getCursorUnaryOperatorKind(CXCursor cursor) {
   }
 
   return CXUnaryOperator_Invalid;
+}
+
+enum CXCastKind clang_getCursorCastKind(CXCursor cursor) {
+  if (clang_isExpression(cursor.kind)) {
+    const Expr *expr = getCursorExpr(cursor);
+
+    if (const auto *ce = dyn_cast<CastExpr>(expr))
+      return static_cast<CXCastKind>(ce->getCastKind() + 1);
+  }
+
+  return CXCastKind_Invalid;
+}
+
+CXString clang_getCastKindSpelling(enum CXCastKind kind) {
+  return cxstring::createRef(
+      CastExpr::getCastKindName(static_cast<CastKind>(kind - 1)));
 }
